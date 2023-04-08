@@ -1,15 +1,17 @@
+import { TestBed } from '@angular/core/testing';
 import { ChildComponent } from './child.component';
 
 describe(ChildComponent.name, () => {
-  const setup = () => {
-    cy.mount(ChildComponent);
-  };
-
-  test('add Good title and send request title with no error', () => {
-    setup();
+  beforeEach(() => {
+    TestBed.overrideComponent(ChildComponent, {
+      add: {
+        imports: [],
+        providers: [],
+      },
+    });
   });
 
-  test('fail validating title because no title were typed', () => {
-    setup();
+  it('renders', () => {
+    cy.mount(ChildComponent);
   });
 });
