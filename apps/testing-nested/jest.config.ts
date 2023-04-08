@@ -3,7 +3,6 @@ export default {
   displayName: 'testing-nested',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/apps/testing-nested',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',
