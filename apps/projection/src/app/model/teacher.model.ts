@@ -1,3 +1,5 @@
+import { Entity } from './card.model';
+
 export const subject = [
   'Sciences',
   'History',
@@ -5,10 +7,9 @@ export const subject = [
   'Maths',
   'Sport',
 ] as const;
-export type Subject = typeof subject[number];
+export type Subject = (typeof subject)[number];
 
-export interface Teacher {
-  id: number;
+export interface Teacher extends Entity {
   firstname: string;
   lastname: string;
   subject: Subject;
