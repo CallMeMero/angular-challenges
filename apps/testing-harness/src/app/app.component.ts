@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { TableComponent } from './table.component';
+import { ChildComponent } from './child.component';
 
 @Component({
   standalone: true,
-  imports: [TableComponent],
+  imports: [ChildComponent],
   selector: 'app-root',
-  template: ` <app-table /> `,
+  template: `<app-child />`,
+  styles: [''],
 })
 export class AppComponent {}

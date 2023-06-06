@@ -1,27 +1,26 @@
 {
-  "name": "testing-table",
-  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "name": "testing-harness",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "apps/testing-table/src",
   "prefix": "app",
+  "sourceRoot": "apps/testing-harness/src",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/testing-table",
-        "index": "apps/testing-table/src/index.html",
-        "main": "apps/testing-table/src/main.ts",
+        "outputPath": "dist/apps/testing-harness",
+        "index": "apps/testing-harness/src/index.html",
+        "main": "apps/testing-harness/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/testing-table/tsconfig.app.json",
-        "inlineStyleLanguage": "scss",
+        "tsConfig": "apps/testing-harness/tsconfig.app.json",
         "assets": [
-          "apps/testing-table/src/favicon.ico",
-          "apps/testing-table/src/assets"
+          "apps/testing-harness/src/favicon.ico",
+          "apps/testing-harness/src/assets"
         ],
-        "styles": ["apps/testing-table/src/styles.scss"],
-        "scripts": [],
-        "allowedCommonJsDependencies": ["seedrandom"]
+        "styles": ["apps/testing-harness/src/styles.scss"],
+        "scripts": []
       },
       "configurations": {
         "production": {
@@ -54,10 +53,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "testing-table:build:production"
+          "browserTarget": "testing-harness:build:production"
         },
         "development": {
-          "browserTarget": "testing-table:build:development"
+          "browserTarget": "testing-harness:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -65,24 +64,14 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "testing-table:build"
-      }
-    },
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "apps/testing-table/**/*.ts",
-          "apps/testing-table/**/*.html"
-        ]
+        "browserTarget": "testing-harness:build"
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/testing-table/jest.config.ts",
+        "jestConfig": "apps/testing-harness/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -92,15 +81,15 @@
         }
       }
     },
-    "component-test": {
-      "executor": "@nx/cypress:cypress",
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "cypressConfig": "apps/testing-table/cypress.config.ts",
-        "testingType": "component",
-        "skipServe": true,
-        "devServerTarget": "testing-table:build"
+        "lintFilePatterns": [
+          "apps/testing-harness/**/*.ts",
+          "apps/testing-harness/**/*.html"
+        ]
       }
     }
-  },
-  "tags": []
+  }
 }
