@@ -1,14 +1,6 @@
 /* eslint-disable @angular-eslint/directive-selector */
-import { NgIf, NgIfContext } from '@angular/common';
-import {
-  Directive,
-  Input,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewContainerRef,
-  inject,
-} from '@angular/core';
+import { NgIf } from '@angular/common';
+import { Directive, Input, inject } from '@angular/core';
 import { Role } from './user.model';
 import { UserStore } from './user.store';
 import { ComponentStore } from '@ngrx/component-store';
@@ -37,7 +29,7 @@ export class HasRoleDirective {
     }
   }
 
-  private readonly showTemplate = this.componentStore.effect<
-    boolean | undefined
-  >(pipe(tap((show) => (this.ngIf.ngIf = show))));
+  private readonly showTemplate = this.componentStore.effect<boolean>(
+    pipe(tap((show) => (this.ngIf.ngIf = show)))
+  );
 }
