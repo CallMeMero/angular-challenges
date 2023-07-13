@@ -10,7 +10,7 @@ export class UserStore {
   user$ = this.user.asObservable();
 
   isUserLoggedIn$ = this.user$.pipe(map(Boolean));
-  isAdmin$ = this.user$.pipe(map((user) => user?.isAdmin));
+  isAdmin$ = this.user$.pipe(map((user) => user?.isAdmin ?? false));
 
   hasAnyRole(role: Role | Role[]) {
     return this.user$.pipe(
@@ -18,12 +18,19 @@ export class UserStore {
         if (user?.isAdmin) return true;
 
         const roles = Array.isArray(role) ? role : [role];
-        return roles.length === 0 || user?.roles.some((r) => roles.includes(r));
+        return (
+          roles.length === 0 ||
+          (user?.roles.some((r) => roles.includes(r)) ?? false)
+        );
       })
     );
   }
 
   add(user: User) {
     this.user.next(user);
+  }
+
+  remove() {
+    this.user.next(undefined);
   }
 }

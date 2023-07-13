@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { ButtonComponent } from '../button.component';
+import { LogoutComponent } from '../logout.component';
 
 @Component({
   standalone: true,
-  imports: [RouterLink, ButtonComponent],
+  imports: [LogoutComponent],
   template: `
     <p>dashboard for Admin works!</p>
-    <button app-button routerLink="/">Logout</button>
+    <app-logout></app-logout>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
