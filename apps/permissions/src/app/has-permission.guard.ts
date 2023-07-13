@@ -2,7 +2,7 @@ import { CanMatchFn, Router } from '@angular/router';
 import { Role } from './user.model';
 import { inject } from '@angular/core';
 import { UserStore } from './user.store';
-import { map, mergeMap, of } from 'rxjs';
+import { mergeMap, of } from 'rxjs';
 
 export const hasPermissionGuard: CanMatchFn = (route) => {
   const accessRoles: Role[] = route.data?.['roles'] ?? [];
