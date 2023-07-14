@@ -1,15 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import {
-  first,
-  forkJoin,
-  map,
-  merge,
-  mergeMap,
-  Observable,
-  of,
-  switchMap,
-  take,
-} from 'rxjs';
+import { first, forkJoin, map, Observable, switchMap } from 'rxjs';
 import { LocalDBService, TopicType } from './localDB.service';
 
 @Injectable({ providedIn: 'root' })
