@@ -18,3 +18,7 @@ $theme: mat.define-light-theme((color: (primary: $theme-primary,
 
 @include mat.dialog-theme($theme);
 @include mat.button-theme($theme);
+
+:root {
+  --mdc-circular-progress-active-indicator-color: purple;
+}
