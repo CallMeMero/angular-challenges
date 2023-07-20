@@ -10,12 +10,17 @@ import { TopicType } from './localDB.service';
   selector: 'button-delete-topic',
   imports: [AsyncPipe],
   template: `
-    <button (click)="deleteTopic()"><ng-content></ng-content></button>
-    <div>{{ message$$ | async }}</div>
+    <button (click)="deleteTopic()">
+      <ng-content></ng-content>
+    </button>
+    <div>
+      {{ message$$ | async }}
+    </div>
   `,
 })
 export class ButtonDeleteComponent {
-  @Input() topic!: TopicType;
+  @Input()
+  topic!: TopicType;
 
   message$$ = new BehaviorSubject<string>('');
 
@@ -41,7 +46,9 @@ export class ButtonDeleteComponent {
   selector: 'app-root',
   template: `
     <div *ngFor="let item of all$ | async">
-      {{ item.id }} - {{ item.topic }}
+      {{ item.id }}
+      -
+      {{ item.topic }}
     </div>
 
     <button-delete-topic topic="food">Delete Food</button-delete-topic>
