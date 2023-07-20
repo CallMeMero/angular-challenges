@@ -1,51 +1,49 @@
-import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { randText } from '@ngneat/falso';
+import { NgFor, NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { TodosStore } from './todos.store';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { LetModule } from '@ngrx/component';
+import { provideComponentStore } from '@ngrx/component-store';
+import { TodoItemComponent } from './todo-item.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    NgIf,
+    NgFor,
+    MatProgressSpinnerModule,
+    LetModule,
+    TodoItemComponent,
+  ],
+  providers: [provideComponentStore(TodosStore)],
   selector: 'app-root',
   template: `
-    <div *ngFor="let todo of todos">
-      {{ todo.title }}
-      <button (click)="update(todo)">Update</button>
-    </div>
+    <ng-container *ngrxLet="vm$ as vm">
+      <mat-spinner [diameter]="20" color="blue" *ngIf="vm.loading">
+      </mat-spinner>
+      <ng-container *ngIf="vm.error; else noError">
+        Error has occurred: {{ vm.error }}
+      </ng-container>
+      <ng-template #noError>
+        <div class="todo-container">
+          <app-todo-item *ngFor="let todo of vm.todos" [todo]="todo">
+          </app-todo-item>
+        </div>
+      </ng-template>
+    </ng-container>
   `,
-  styles: [],
+  styles: [
+    `
+      .todo-container {
+        display: flex;
+        flex-direction: column;
+      }
+    `,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements OnInit {
-  todos!: any[];
+export class AppComponent {
+  private todosStore = inject(TodosStore);
 
-  constructor(private http: HttpClient) {}
-
-  ngOnInit(): void {
-    this.http
-      .get<any[]>('https://jsonplaceholder.typicode.com/todos')
-      .subscribe((todos) => {
-        this.todos = todos;
-      });
-  }
-
-  update(todo: any) {
-    this.http
-      .put<any>(
-        `https://jsonplaceholder.typicode.com/todos/${todo.id}`,
-        JSON.stringify({
-          todo: todo.id,
-          title: randText(),
-          body: todo.body,
-          userId: todo.userId,
-        }),
-        {
-          headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-          },
-        }
-      )
-      .subscribe((todoUpdated: any) => {
-        this.todos[todoUpdated.id - 1] = todoUpdated;
-      });
-  }
+  vm$ = this.todosStore.vm$;
 }

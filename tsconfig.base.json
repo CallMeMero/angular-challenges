@@ -61,7 +61,7 @@
       "@angular-challenges/testing-table/model": [
         "libs/testing-table/model/src/index.ts"
       ],
-      "@tomalaforge/ngrx-callstate-store": [
+      "@angular-challenges/ngrx-callstate-store": [
         "libs/shared/ngrx-callstate-store/src/index.ts"
       ]
     }
