@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import * as ActivityActions from './activity.actions';
 import { Activity } from './activity.model';
+import { ActivityActions } from './activity.actions';
 
 export const activityFeatureKey = 'Activity';
 
