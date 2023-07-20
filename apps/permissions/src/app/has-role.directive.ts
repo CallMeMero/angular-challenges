@@ -1,68 +1,35 @@
 /* eslint-disable @angular-eslint/directive-selector */
-import { NgIfContext } from '@angular/common';
-import {
-  Directive,
-  Input,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewContainerRef,
-} from '@angular/core';
+import { NgIf } from '@angular/common';
+import { Directive, Input, inject } from '@angular/core';
 import { Role } from './user.model';
 import { UserStore } from './user.store';
+import { ComponentStore } from '@ngrx/component-store';
+import { pipe, tap } from 'rxjs';
 
 @Directive({
   selector: '[hasRole], [hasRoleIsAdmin]',
   standalone: true,
-  providers: [provideDestroyService()],
+  hostDirectives: [NgIf],
+  providers: [ComponentStore],
 })
-export class HasRoleDirective implements OnInit, OnDestroy {
-  @Input('hasRole') role: Role | Role[] | undefined = undefined;
+export class HasRoleDirective {
+  private store = inject(UserStore);
+  private componentStore = inject(ComponentStore);
+  private ngIf = inject(NgIf, { host: true });
 
-  @Input('hasRoleIsAdmin') isAdmin = false;
-
-  @Input('hasRoleIsAdminElseTemplate')
-  elseTemplate?: TemplateRef<NgIfContext> | null;
-
-  constructor(
-    private templateRef: TemplateRef<unknown>,
-    private viewContainer: ViewContainerRef,
-    private store: UserStore
-  ) {}
-
-  ngOnDestroy(): void {
-    console.log('on destroy');
-  }
-
-  ngOnInit(): void {
-    console.log(this.role, this.isAdmin, this.elseTemplate);
-    if (this.isAdmin) {
-      this.store.isAdmin$.subscribe((isAdmin) => {
-        console.log(isAdmin);
-        isAdmin ? this.addTemplate() : this.addElseTemplate();
-      });
+  @Input('hasRole') set role(role: Role | Role[] | undefined) {
+    if (role) {
+      this.showTemplate(this.store.hasAnyRole(role));
     }
-    // else if (this.role) {
-    //   this.store
-    //     .hasAnyRole(this.role)
-    //     .subscribe((hasPermission) =>
-    //       hasPermission ? this.addTemplate() : this.addElseTemplate()
-    //     );
-    // } else {
-    //   this.addTemplate();
-    // }
   }
 
-  private addTemplate() {
-    console.log('Add');
-    this.viewContainer.clear();
-    this.viewContainer.createEmbeddedView(this.templateRef);
+  @Input('hasRoleIsAdmin') set isAdmin(isAdmin: boolean) {
+    if (isAdmin) {
+      this.showTemplate(this.store.isAdmin$);
+    }
   }
 
-  private addElseTemplate() {
-    console.log('ici');
-    this.viewContainer.clear();
-    this.elseTemplate &&
-      this.viewContainer.createEmbeddedView(this.elseTemplate);
-  }
+  private readonly showTemplate = this.componentStore.effect<boolean>(
+    pipe(tap((show) => (this.ngIf.ngIf = show)))
+  );
 }
