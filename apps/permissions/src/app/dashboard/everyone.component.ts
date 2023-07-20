@@ -5,9 +5,9 @@ import { LogoutComponent } from '../logout.component';
   standalone: true,
   imports: [LogoutComponent],
   template: `
-    <p>dashboard for Manager works!</p>
+    <p>dashboard for Everyone works!</p>
     <app-logout></app-logout>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ManagerDashboardComponent {}
+export class EveryoneDashboardComponent {}
